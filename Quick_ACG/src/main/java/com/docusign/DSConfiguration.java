@@ -78,6 +78,9 @@ public class DSConfiguration {
     @Value("${DS_ADMIN_BASE_PATH}")
     private String adminBasePath;
 
+    @Value("${DS_WEBFORMS_BASE_PATH}")
+    private String webFormsBasePath;
+
     public String examplesApiPath = "examplesApi.json";
     
     public String apiTypeHeader = "ApiType";

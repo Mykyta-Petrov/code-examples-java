@@ -1,5 +1,7 @@
 package com.docusign.controller.webForms.examples;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
@@ -11,7 +13,8 @@ import com.docusign.common.WorkArguments;
 import com.docusign.core.controller.AbstractController;
 import com.docusign.core.model.Session;
 import com.docusign.core.model.User;
-import com.docusign.webforms.client.ApiClient;
+import com.docusign.esign.client.ApiClient;
+import com.docusign.esign.client.ApiException;
 
 @Controller
 public class AbstractWebFormsController extends AbstractController {
@@ -27,7 +30,8 @@ public class AbstractWebFormsController extends AbstractController {
     }
 
     @Override
-    protected Object doWork(WorkArguments args, ModelMap model, HttpServletResponse response) {
+    protected Object doWork(WorkArguments args, ModelMap model,
+                            HttpServletResponse response) throws ApiException, IOException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doWork'");
     }

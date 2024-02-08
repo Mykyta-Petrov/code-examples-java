@@ -6,9 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import org.springframework.core.io.ClassPathResource;
 
 import com.docusign.controller.eSignature.examples.EnvelopeHelpers;
 import com.docusign.esign.model.Checkbox;
@@ -40,12 +44,12 @@ public final class CreateAndEmbedFormService {
     }
 
     public static void addTemplateIdToForm(
-        String fileLocation,
+        String fileName,
         String templateId
     ) throws FileNotFoundException, IOException {
         String targetString = "template-id";
 
-        BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new ClassPathResource(fileName).getInputStream()));
         StringBuilder stringBuilder = new StringBuilder();
         String temp;
         while ((temp = reader.readLine()) != null) {
@@ -56,9 +60,10 @@ public final class CreateAndEmbedFormService {
         String fileContent = stringBuilder.toString();
         String modifiedContent = fileContent.replace(targetString, templateId);
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fileLocation));
+        //TODO
+        /*BufferedWriter writer = new BufferedWriter(new FileWriter(path));
         writer.write(modifiedContent);
-        writer.close();
+        writer.close();*/
     }
 
     public static WebFormInstance createInstance(

@@ -1,7 +1,6 @@
 package com.docusign.controller.webForms.examples;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,9 +61,9 @@ public class WEB001ControllerCreateAndEmbedForm extends AbstractWebFormsControll
     @Override
     protected Object doWork(WorkArguments args, ModelMap model,
                             HttpServletResponse response) throws ApiException, IOException, com.docusign.webforms.client.ApiException {
+        String accountId = session.getAccountId();
         if (session.getTemplateId() == null) {
             ApiClient eSignApiClient = createESignApiClient(session.getBasePath(), user.getAccessToken());
-            String accountId = session.getAccountId();
             
             EnvelopeTemplateResults envelopeTemplateResults = CreateTemplateService.searchTemplatesByName(
                     eSignApiClient,
@@ -92,28 +91,26 @@ public class WEB001ControllerCreateAndEmbedForm extends AbstractWebFormsControll
         }
 
         com.docusign.webforms.client.ApiClient webFormsApiClient = createWebFormsApiClient(session.getBasePath(), user.getAccessToken());
-        UUID accountIdUUID = UUID.fromString(session.getAccountId());
 
-        /*
-        // apparently broken?
-        WebFormSummaryList forms = CreateAndEmbedFormService.GetForms(webFormsApiClient, accountIdUUID);
+        WebFormSummaryList forms = CreateAndEmbedFormService.GetForms(webFormsApiClient, accountId);
 
         if (forms.getItems() == null || forms.getItems().size() == 0) {
             return new RedirectView("web001");
         }
 
-        UUID formId = null;
+        String formId = null;
         for (WebFormSummary form : forms.getItems()) {
             if (form.getFormProperties().getName() == TEMPLATE_NAME) {
-                formId = UUID.fromString(form.getId());
+                formId = form.getId();
+                break;
             }
         }
 
-        WebFormInstance form = CreateAndEmbedFormService.createInstance(webFormsApiClient, accountIdUUID, formId);
-        */
+        WebFormInstance form = CreateAndEmbedFormService.createInstance(webFormsApiClient, accountId, formId);
+        
         model.addAttribute(LAUNCHER_TEXTS, config.getCodeExamplesText().SupportingTexts);
-        //model.addAttribute(INSTANCE_TOKEN, null);
-        //model.addAttribute(URL, null);
+        model.addAttribute(INSTANCE_TOKEN, form.getInstanceToken());
+        model.addAttribute(URL, form.getFormUrl());
         model.addAttribute(INTEGRATION_KEY, config.getUserId());
 
         return EMBED;

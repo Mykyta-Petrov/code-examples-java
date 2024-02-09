@@ -10,12 +10,12 @@
 
     <body>
         <div id="app">
-        <div id="webform-customer-app-area">
-            <h5 id="webforms-heading">The web form has been embedded below using the DocuSign.js library.</h5>
-            <div id="docusign" class="webform-iframe-container">
-                <p>Web Form will render here</p>
+            <div id="webform-customer-app-area">
+                <h5 id="webforms-heading">The web form has been embedded below using the DocuSign.js library.</h5>
+                <div id="docusign" class="webform-iframe-container">
+                    <p>Web Form will render here</p>
+                </div>
             </div>
-        </div>
         </div>
     </body>
 </html>

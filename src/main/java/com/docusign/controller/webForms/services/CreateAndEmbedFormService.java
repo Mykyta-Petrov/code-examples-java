@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.core.io.ClassPathResource;
 
@@ -37,10 +36,10 @@ public final class CreateAndEmbedFormService {
 
     public static WebFormSummaryList GetForms(
         ApiClient apiClient,
-        UUID userAccessToken
+        String accountId
     ) throws ApiException {
         FormManagementApi formManagementApi = new FormManagementApi(apiClient);
-        return formManagementApi.listForms(userAccessToken);
+        return formManagementApi.listForms(accountId);
     }
 
     public static void addTemplateIdToForm(
@@ -68,8 +67,8 @@ public final class CreateAndEmbedFormService {
 
     public static WebFormInstance createInstance(
         ApiClient apiClient,
-        UUID accountId,
-        UUID formId
+        String accountId,
+        String formId
     ) throws ApiException {
         FormInstanceManagementApi formManagementApi = new FormInstanceManagementApi(apiClient);
         WebFormValues formValues = new WebFormValues();

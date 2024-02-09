@@ -15,7 +15,6 @@ import com.docusign.DSConfiguration;
 import com.docusign.common.WorkArguments;
 import com.docusign.controller.eSignature.services.CreateTemplateService;
 import com.docusign.controller.webForms.services.CreateAndEmbedFormService;
-import com.docusign.core.model.DoneExample;
 import com.docusign.core.model.Session;
 import com.docusign.core.model.User;
 import com.docusign.esign.client.ApiClient;
@@ -38,6 +37,14 @@ public class WEB001ControllerCreateAndEmbedForm extends AbstractWebFormsControll
     private static final String DOCUMENT_FILE_NAME = "World_Wide_Corp_Web_Form.pdf";
     
     private static final String WEB_FORM_CONFIG = "web-form-config.json";
+
+    public static final String EMBED = "pages/webforms/examples/embed";
+
+    public static final String INSTANCE_TOKEN = "instanceToken";
+    
+    public static final String URL = "url";
+
+    public static final String INTEGRATION_KEY = "integrationKey";
 
     @Autowired
     public WEB001ControllerCreateAndEmbedForm(DSConfiguration config, Session session, User user) {
@@ -87,6 +94,8 @@ public class WEB001ControllerCreateAndEmbedForm extends AbstractWebFormsControll
         com.docusign.webforms.client.ApiClient webFormsApiClient = createWebFormsApiClient(session.getBasePath(), user.getAccessToken());
         UUID accountIdUUID = UUID.fromString(session.getAccountId());
 
+        /*
+        // apparently broken?
         WebFormSummaryList forms = CreateAndEmbedFormService.GetForms(webFormsApiClient, accountIdUUID);
 
         if (forms.getItems() == null || forms.getItems().size() == 0) {
@@ -101,13 +110,12 @@ public class WEB001ControllerCreateAndEmbedForm extends AbstractWebFormsControll
         }
 
         WebFormInstance form = CreateAndEmbedFormService.createInstance(webFormsApiClient, accountIdUUID, formId);
-        
-        return new RedirectView("web001");
+        */
+        model.addAttribute(LAUNCHER_TEXTS, config.getCodeExamplesText().SupportingTexts);
+        //model.addAttribute(INSTANCE_TOKEN, null);
+        //model.addAttribute(URL, null);
+        model.addAttribute(INTEGRATION_KEY, config.getUserId());
 
-        /*DoneExample.createDefault(this.title)
-            .withJsonObject(form)
-            //.withMessage()
-            .addToModel(model, config);
-        return DONE_EXAMPLE_PAGE;*/
+        return EMBED;
     }
 }

@@ -2,6 +2,7 @@ package com.docusign.controller.webForms.services;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -59,10 +60,15 @@ public final class CreateAndEmbedFormService {
         String fileContent = stringBuilder.toString();
         String modifiedContent = fileContent.replace(targetString, templateId);
 
-        //TODO
-        /*BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        String targetDirectory = "demo_documents";
+        File directory = new File(targetDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(targetDirectory + "/" + fileName));
         writer.write(modifiedContent);
-        writer.close();*/
+        writer.close();
     }
 
     public static WebFormInstance createInstance(

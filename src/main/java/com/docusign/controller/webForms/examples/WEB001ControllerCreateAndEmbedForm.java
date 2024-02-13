@@ -90,21 +90,15 @@ public class WEB001ControllerCreateAndEmbedForm extends AbstractWebFormsControll
             return new RedirectView("web001");
         }
 
-        com.docusign.webforms.client.ApiClient webFormsApiClient = createWebFormsApiClient(session.getBasePath(), user.getAccessToken());
+        com.docusign.webforms.client.ApiClient webFormsApiClient = createWebFormsApiClient(config.getWebFormsBasePath(), user.getAccessToken());
 
-        WebFormSummaryList forms = CreateAndEmbedFormService.GetForms(webFormsApiClient, accountId);
+        WebFormSummaryList forms = CreateAndEmbedFormService.getForms(webFormsApiClient, accountId, TEMPLATE_NAME);
 
         if (forms.getItems() == null || forms.getItems().size() == 0) {
             return new RedirectView("web001");
         }
 
-        String formId = null;
-        for (WebFormSummary form : forms.getItems()) {
-            if (form.getFormProperties().getName() == TEMPLATE_NAME) {
-                formId = form.getId();
-                break;
-            }
-        }
+        String formId = forms.getItems().get(0).getId();
 
         WebFormInstance form = CreateAndEmbedFormService.createInstance(webFormsApiClient, accountId, formId);
         

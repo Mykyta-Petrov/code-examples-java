@@ -35,12 +35,16 @@ import com.docusign.webforms.model.WebFormValues;
 
 public final class CreateAndEmbedFormService {
 
-    public static WebFormSummaryList GetForms(
+    public static WebFormSummaryList getForms(
         ApiClient apiClient,
-        String accountId
+        String userAccessToken,
+        String search
     ) throws ApiException {
         FormManagementApi formManagementApi = new FormManagementApi(apiClient);
-        return formManagementApi.listForms(accountId);
+        var option = formManagementApi.new ListFormsOptions();
+        option.setSearch(search);
+
+        return formManagementApi.listForms(userAccessToken, option);
     }
 
     public static void addTemplateIdToForm(
